@@ -1,0 +1,10 @@
+.container {
+  background-color: lightgray;
+  margin: 15px 70px;
+  padding: 15px;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+  box-shadow: 0 0 22px #ac272759 inset;
+}
