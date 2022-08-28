@@ -10,6 +10,8 @@ import { User } from '../models/user.model';
 })
 export class FooterComponent implements OnInit {
   dataTitle = 'UX Users';
+  isEditable: boolean = false;
+  editUserId: any;
   @ViewChild('userForm') userForm!: NgForm;
 
   users: User[] = [];
@@ -23,21 +25,50 @@ export class FooterComponent implements OnInit {
 
   // Method to Add Users
   onAddUser(userData: User) {
-    // console.log(userData);
-    this.users.push(userData);
-    this.userService.addUsers(userData).subscribe((response) => {
-      console.log(response);
-    });
+    if (this.userForm.valid) {
+      if (this.isEditable) {
+        this.userService
+          .editUser(this.editUserId, userData)
+          .subscribe((res) => console.log(res));
+
+        this.onFetchUsers();
+
+        // this.userForm.setValue({
+        //   name: '',
+        //   technology: '',
+        // });
+      } else {
+        // console.log(userData);
+        this.users.push(userData);
+        this.userService.addUsers(userData).subscribe((response) => {
+          console.log(response);
+        });
+      }
+    } else {
+      // ...
+    }
   }
 
-  // Method to Fetch Products
+  // Method to Fetch Users
   onFetchUsers() {
     this.userService.fetchUsers().subscribe((userResponse) => {
       this.users = userResponse;
     });
   }
 
-  // Method to Delete Products
+  // Method to Edit Users
+  onEditUser(userId: any, index: any) {
+    // console.log(this.users[index]);
+    this.isEditable = true;
+    this.editUserId = userId;
+
+    this.userForm.setValue({
+      name: this.users[index].name,
+      technology: this.users[index].technology,
+    });
+  }
+
+  // Method to Delete Users
   onDeleteUser(userId: any) {
     if (confirm('Do you want to delete this user?')) {
       this.userService.deleteUser(userId).subscribe(() => {
@@ -45,7 +76,4 @@ export class FooterComponent implements OnInit {
       });
     }
   }
-
-  // Method to Edit Products
-  onEditProduct(index: number) {}
 }

@@ -29,7 +29,9 @@
           />
         </div>
 
-        <button class="btn btn-primary me-3">Add User</button>
+        <button class="btn btn-primary me-3">
+          {{ isEditable ? "Update User" : "Add User" }}
+        </button>
 
         <button type="submit" class="btn btn-warning">Fetch User</button>
       </form>
@@ -56,7 +58,7 @@
             <td>{{ user.name }}</td>
             <td>{{ user.technology }}</td>
             <td>
-              <button class="btn btn-success" (click)="onEditProduct(i)">
+              <button class="btn btn-success" (click)="onEditUser(user.id, i)">
                 Edit
               </button>
             </td>

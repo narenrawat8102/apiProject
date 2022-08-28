@@ -35,6 +35,11 @@ export class UserService {
     );
   }
 
+  // Method to Edit Users in Database
+  editUser(userId: any, users: User): Observable<any> {
+    return this.http.put<any>(this.userDeleteUrl + userId + '.json', users);
+  }
+
   // Method to Delete Users from Database
   deleteUser(userId: any): Observable<User> {
     return this.http.delete<User>(this.userDeleteUrl + userId + '.json');
